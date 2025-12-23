@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple File Upload Test</title>
+</head>
+<body>
+    <h1>Simple File Upload Test</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="file">Select file:</label><br>
+        <input type="file" id="file" name="file" accept=".xlsx,.xls,.csv" required><br><br>
+        <input type="submit" value="Upload and Analyze">
+    </form>
+</body>
+</html>

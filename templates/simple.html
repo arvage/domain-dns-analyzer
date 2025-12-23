@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS Analyzer - Simple Upload</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+        .upload-form { border: 2px solid #ccc; padding: 20px; border-radius: 10px; }
+        input[type="file"] { margin: 10px 0; padding: 10px; width: 100%; }
+        input[type="submit"] { background: #007bff; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; }
+        input[type="submit"]:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>Domain DNS Analyzer - Simple Upload</h1>
+    <div class="upload-form">
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label for="file"><strong>Select CSV or Excel file with domains:</strong></label><br>
+            <input type="file" id="file" name="file" accept=".xlsx,.xls,.csv" required><br>
+            <input type="submit" value="Analyze Domains">
+        </form>
+    </div>
+    <p><strong>Note:</strong> File must contain a column named "Domain"</p>
+</body>
+</html>

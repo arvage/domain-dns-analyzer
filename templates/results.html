@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results - Utopia Tech</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-chart-line"></i> DNS Analysis Results</h1>
+            <p style="color: #667eea; font-weight: 600; font-size: 1.05rem; margin-top: 5px;">Powered by <a href="https://www.utopiats.com" target="_blank" style="color: #667eea; text-decoration: none; border-bottom: 2px solid #667eea;">Utopia Tech</a></p>
+            <p>Analysis completed on {{ timestamp }}</p>
+        </header>
+
+        <main>
+            <div class="results-header">
+                <a href="/" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Analyze Another File
+                </a>
+                
+                <a href="/download/{{ report_filename }}" class="download-btn">
+                    <i class="fas fa-download"></i> Download Excel Report
+                </a>
+            </div>
+
+            <div class="summary-section">
+                <h2><i class="fas fa-chart-pie"></i> Analysis Summary</h2>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-number">{{ summary.total_analyzed }}</div>
+                        <div class="summary-label">Total Domains Analyzed</div>
+                    </div>
+                    
+                    <div class="summary-card success">
+                        <div class="summary-number">{{ summary.domains_with_dmarc_policy }}</div>
+                        <div class="summary-label">Domains with DMARC Policy</div>
+                    </div>
+                    
+                    <div class="summary-card warning">
+                        <div class="summary-number">{{ summary.domains_without_dmarc_policy }}</div>
+                        <div class="summary-label">Domains without DMARC Policy</div>
+                    </div>
+                    
+                    <div class="summary-card info">
+                        <div class="summary-number">{{ summary.domains_with_websites }}</div>
+                        <div class="summary-label">Domains with Websites</div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-number">{{ summary.domains_with_www_pointing_to_main }}</div>
+                        <div class="summary-label">WWW Points to Main</div>
+                    </div>
+                    
+                    {% if summary.domains_with_errors > 0 %}
+                    <div class="summary-card error">
+                        <div class="summary-number">{{ summary.domains_with_errors }}</div>
+                        <div class="summary-label">Domains with Errors</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="results-section">
+                <h2><i class="fas fa-table"></i> Detailed Results</h2>
+                
+                <div class="table-controls">
+                    <div class="filter-row">
+                        <input type="text" id="searchInput" placeholder="🔍 Search domains..." class="search-input">
+                    </div>
+                    <div class="filter-row">
+                        <select id="filterDmarc" class="filter-select">
+                            <option value="all">DMARC: All</option>
+                            <option value="yes">DMARC: Yes</option>
+                            <option value="no">DMARC: No</option>
+                        </select>
+                        <select id="filterWebsite" class="filter-select">
+                            <option value="all">Website: All</option>
+                            <option value="yes">Website: Yes</option>
+                            <option value="no">Website: No</option>
+                        </select>
+                        <select id="filterWWW" class="filter-select">
+                            <option value="all">WWW: All</option>
+                            <option value="yes">WWW: Points to Main</option>
+                            <option value="no">WWW: Doesn't Point</option>
+                        </select>
+                        <select id="filterError" class="filter-select">
+                            <option value="all">Errors: All</option>
+                            <option value="yes">With Errors</option>
+                            <option value="no">No Errors</option>
+                        </select>
+                        <button id="resetFilters" class="reset-btn">🔄 Reset Filters</button>
+                    </div>
+                    <div class="results-count">
+                        Showing <span id="visibleCount">0</span> of <span id="totalCount">0</span> domains
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="results-table" id="resultsTable">
+                        <thead>
+                            <tr>
+                                <th>Domain</th>
+                                <th>DMARC Policy</th>
+                                <th>Has DMARC</th>
+                                <th>DMARC RUF Email</th>
+                                <th>Has Website</th>
+                                <th>WWW Points to Main</th>
+                                <th>Tech Contact Email</th>
+                                <th>MX Records</th>
+                                <th>SPF Record</th>
+                                <th>Error</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in results %}
+                            <tr class="result-row" 
+                                data-domain="{{ result.domain }}" 
+                                data-dmarc="{{ result.has_dmarc_policy|lower }}" 
+                                data-website="{{ result.has_website|lower }}" 
+                                data-www="{{ result.www_points_to_main|lower }}"
+                                data-error="{{ 'true' if result.error else 'false' }}">
+                                <td class="domain-cell">{{ result.domain }}</td>
+                                <td class="policy-cell">{{ result.dmarc_policy }}</td>
+                                <td class="status-cell">
+                                    {% if result.has_dmarc_policy %}
+                                        <span class="status-badge success"><i class="fas fa-check"></i> Yes</span>
+                                    {% else %}
+                                        <span class="status-badge error"><i class="fas fa-times"></i> No</span>
+                                    {% endif %}
+                                </td>
+                                <td class="record-cell contact-cell">
+                                    {% if result.dmarc_ruf_email and '@' in result.dmarc_ruf_email %}
+                                        <a href="mailto:{{ result.dmarc_ruf_email.split(';')[0].strip() }}" class="contact-btn contact-btn-secondary" title="{{ result.dmarc_ruf_email }}">
+                                            <i class="fas fa-envelope"></i> Contact
+                                        </a>
+                                    {% else %}
+                                        <span class="not-available">Not set</span>
+                                    {% endif %}
+                                </td>
+                                <td class="status-cell">
+                                    {% if result.has_website %}
+                                        <span class="status-badge success"><i class="fas fa-check"></i> Yes</span>
+                                    {% else %}
+                                        <span class="status-badge error"><i class="fas fa-times"></i> No</span>
+                                    {% endif %}
+                                </td>
+                                <td class="status-cell">
+                                    {% if result.www_points_to_main %}
+                                        <span class="status-badge success"><i class="fas fa-check"></i> Yes</span>
+                                    {% else %}
+                                        <span class="status-badge error"><i class="fas fa-times"></i> No</span>
+                                    {% endif %}
+                                </td>
+                                <td class="record-cell contact-cell">
+                                    {% if result.tech_contact_email and result.tech_contact_email != "Not available" and '@' in result.tech_contact_email %}
+                                        <a href="mailto:{{ result.tech_contact_email.split(';')[0].strip() }}" class="contact-btn" title="{{ result.tech_contact_email }}">
+                                            <i class="fas fa-envelope"></i> Contact
+                                        </a>
+                                    {% else %}
+                                        <span class="not-available">Not available</span>
+                                    {% endif %}
+                                </td>
+                                <td class="record-cell" title="{{ result.mx_records }}">
+                                    {{ result.mx_records[:50] + '...' if result.mx_records|length > 50 else result.mx_records }}
+                                </td>
+                                <td class="record-cell" title="{{ result.spf_record }}">
+                                    {{ result.spf_record[:50] + '...' if result.spf_record|length > 50 else result.spf_record }}
+                                </td>
+                                <td class="error-cell">
+                                    {% if result.error %}
+                                        <span class="error-text" title="{{ result.error }}">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                            {{ result.error[:30] + '...' if result.error|length > 30 else result.error }}
+                                        </span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 <a href="https://www.utopiats.com" target="_blank" style="color: #667eea; text-decoration: none; font-weight: 600;">Utopia Tech</a> | Domain Analyzer Tool</p>
+        </footer>
+    </div>
+
+    <script>
+        // Get all filter elements
+        const searchInput = document.getElementById('searchInput');
+        const filterDmarc = document.getElementById('filterDmarc');
+        const filterWebsite = document.getElementById('filterWebsite');
+        const filterWWW = document.getElementById('filterWWW');
+        const filterError = document.getElementById('filterError');
+        const resetFilters = document.getElementById('resetFilters');
+        const resultsTable = document.getElementById('resultsTable');
+        const rows = resultsTable.querySelectorAll('tbody tr');
+        const visibleCount = document.getElementById('visibleCount');
+        const totalCount = document.getElementById('totalCount');
+
+        // Set total count
+        totalCount.textContent = rows.length;
+
+        function filterTable() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const dmarcFilter = filterDmarc.value;
+            const websiteFilter = filterWebsite.value;
+            const wwwFilter = filterWWW.value;
+            const errorFilter = filterError.value;
+
+            let visibleRows = 0;
+
+            rows.forEach(row => {
+                const domain = row.querySelector('.domain-cell').textContent.toLowerCase();
+                const hasDmarc = row.dataset.dmarc === 'true';
+                const hasWebsite = row.dataset.website === 'true';
+                const hasWWW = row.dataset.www === 'true';
+                const hasError = row.dataset.error === 'true';
+
+                // Check all filters
+                const matchesSearch = !searchTerm || domain.includes(searchTerm);
+                const matchesDmarc = dmarcFilter === 'all' || 
+                    (dmarcFilter === 'yes' && hasDmarc) || 
+                    (dmarcFilter === 'no' && !hasDmarc);
+                const matchesWebsite = websiteFilter === 'all' || 
+                    (websiteFilter === 'yes' && hasWebsite) || 
+                    (websiteFilter === 'no' && !hasWebsite);
+                const matchesWWW = wwwFilter === 'all' || 
+                    (wwwFilter === 'yes' && hasWWW) || 
+                    (wwwFilter === 'no' && !hasWWW);
+                const matchesError = errorFilter === 'all' || 
+                    (errorFilter === 'yes' && hasError) || 
+                    (errorFilter === 'no' && !hasError);
+
+                // Show/hide row based on all filters
+                if (matchesSearch && matchesDmarc && matchesWebsite && matchesWWW && matchesError) {
+                    row.style.display = '';
+                    visibleRows++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            // Update visible count
+            visibleCount.textContent = visibleRows;
+        }
+
+        // Add event listeners
+        searchInput.addEventListener('input', filterTable);
+        filterDmarc.addEventListener('change', filterTable);
+        filterWebsite.addEventListener('change', filterTable);
+        filterWWW.addEventListener('change', filterTable);
+        filterError.addEventListener('change', filterTable);
+
+        // Reset filters button
+        resetFilters.addEventListener('click', function() {
+            searchInput.value = '';
+            filterDmarc.value = 'all';
+            filterWebsite.value = 'all';
+            filterWWW.value = 'all';
+            filterError.value = 'all';
+            filterTable();
+        });
+
+        // Initialize visible count
+        filterTable();
+
+        // Row click to expand details (future enhancement)
+        rows.forEach(row => {
+            row.addEventListener('click', function() {
+                // Could add modal or expanded view here
+            });
+        });
+    </script>
+</body>
+</html>
