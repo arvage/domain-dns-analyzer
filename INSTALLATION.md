@@ -30,12 +30,12 @@ Complete guide for installing and deploying the Domain Analyzer web application 
 ### Required System Packages
 ```bash
 sudo apt update
-sudo apt install -y python3 python3-pip python3-venv git
+sudo apt install -y python3 python3-pip python3-venv git libmagic1
 ```
 
 For RHEL/CentOS:
 ```bash
-sudo yum install -y python3 python3-pip git
+sudo yum install -y python3 python3-pip git file-libs
 ```
 
 ---
@@ -74,6 +74,9 @@ source venv/bin/activate
 ```bash
 # Upgrade pip
 pip install --upgrade pip
+
+# Install system dependencies for file type detection (Linux only)
+sudo apt install -y libmagic1
 
 # Install required packages
 pip install -r requirements.txt
@@ -119,6 +122,10 @@ source venv/bin/activate
 
 # Install dependencies
 pip install --upgrade pip
+
+# Install system package for file detection
+sudo apt install -y libmagic1
+
 pip install -r requirements.txt
 ```
 
@@ -483,6 +490,14 @@ sudo chown -R domainanalyzer:domainanalyzer /home/domainanalyzer/domain-dns-anal
 sudo su - domainanalyzer
 cd domain-dns-analyzer
 source venv/bin/activate
+
+# Install system package if missing
+exit
+sudo apt install -y libmagic1
+sudo su - domainanalyzer
+cd domain-dns-analyzer
+source venv/bin/activate
+
 pip install -r requirements.txt
 ```
 

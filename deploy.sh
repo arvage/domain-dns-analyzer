@@ -25,6 +25,16 @@ fi
 PYTHON_VERSION=$(python3 --version | cut -d' ' -f2 | cut -d'.' -f1,2)
 echo "✅ Python $PYTHON_VERSION found"
 
+# Check for libmagic (Linux)
+echo ""
+echo "📋 Checking system dependencies..."
+if ! ldconfig -p | grep -q libmagic; then
+    echo "⚠️  libmagic not found. Installing..."
+    sudo apt install -y libmagic1 2>/dev/null || sudo yum install -y file-libs 2>/dev/null || echo "⚠️  Please install libmagic manually"
+else
+    echo "✅ libmagic found"
+fi
+
 # Create virtual environment
 echo ""
 echo "🔧 Creating virtual environment..."
