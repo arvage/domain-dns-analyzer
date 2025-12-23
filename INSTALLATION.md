@@ -55,7 +55,7 @@ Choose one based on your needs:
 
 ```bash
 # Clone from GitHub
-git clone https://github.com/YOUR_USERNAME/domain-dns-analyzer.git
+git clone https://github.com/arvage/domain-dns-analyzer.git
 cd domain-dns-analyzer
 ```
 
@@ -110,7 +110,7 @@ sudo useradd -m -s /bin/bash domainanalyzer
 sudo su - domainanalyzer
 
 # Clone repository
-git clone https://github.com/YOUR_USERNAME/domain-dns-analyzer.git
+git clone https://github.com/arvage/domain-dns-analyzer.git
 cd domain-dns-analyzer
 
 # Create virtual environment
@@ -556,7 +556,8 @@ sudo chmod 755 /home/domainanalyzer/domain-dns-analyzer/static/uploads
 For issues or questions:
 - **Website:** https://www.utopiats.com
 - **Email:** support@utopiats.com
-- **GitHub Issues:** https://github.com/YOUR_USERNAME/domain-dns-analyzer/issues
+- **GitHub Issues:** https://github.com/arvage/domain-dns-analyzer/issues
+- **GitHub Repository:** https://github.com/arvage/domain-dns-analyzer
 
 ---
 
