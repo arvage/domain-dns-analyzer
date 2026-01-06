@@ -389,6 +389,68 @@ header p {
     border-left: 4px solid var(--warning-color);
 }
 
+/* DMARC Warning Section */
+.dmarc-warning-section {
+    margin: 30px 0;
+}
+
+.dmarc-warning-box {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    color: white;
+    padding: 25px 30px;
+    border-radius: 12px;
+    border-left: 6px solid #c92a2a;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.dmarc-warning-box h3 {
+    margin: 0 0 15px 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dmarc-warning-box h3 i.fas {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.warning-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.warning-list li {
+    padding: 8px 0;
+    font-size: 1.05rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.warning-list li i {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.warning-action {
+    margin: 15px 0 0 0;
+    font-size: 1.1rem;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    text-align: center;
+}
+
 .summary-card.error {
     border-left: 4px solid var(--error-color);
 }
