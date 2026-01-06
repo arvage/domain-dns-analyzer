@@ -103,8 +103,8 @@
                         <thead>
                             <tr>
                                 <th>Domain</th>
-                                <th>DMARC Policy</th>
                                 <th>Has DMARC</th>
+                                <th>DMARC Policy</th>
                                 <th>DMARC RUF Email</th>
                                 <th>Has Website</th>
                                 <th>WWW Points to Main</th>
@@ -123,7 +123,6 @@
                                 data-www="{{ result.www_points_to_main|lower }}"
                                 data-error="{{ 'true' if result.error else 'false' }}">
                                 <td class="domain-cell">{{ result.domain }}</td>
-                                <td class="policy-cell">{{ result.dmarc_policy }}</td>
                                 <td class="status-cell">
                                     {% if result.has_dmarc_policy %}
                                         <span class="status-badge success"><i class="fas fa-check"></i> Yes</span>
@@ -131,6 +130,7 @@
                                         <span class="status-badge error"><i class="fas fa-times"></i> No</span>
                                     {% endif %}
                                 </td>
+                                <td class="policy-cell">{{ result.dmarc_policy }}</td>
                                 <td class="record-cell contact-cell">
                                     {% if result.dmarc_ruf_email and '@' in result.dmarc_ruf_email %}
                                         <a href="mailto:{{ result.dmarc_ruf_email.split(';')[0].strip() }}" class="contact-btn contact-btn-secondary" title="{{ result.dmarc_ruf_email }}">
