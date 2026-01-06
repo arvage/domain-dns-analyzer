@@ -392,63 +392,103 @@ header p {
 /* DMARC Warning Section */
 .dmarc-warning-section {
     margin: 30px 0;
+    display: flex;
+    justify-content: center;
 }
 
 .dmarc-warning-box {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-    color: white;
-    padding: 25px 30px;
-    border-radius: 12px;
-    border-left: 6px solid #c92a2a;
-    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+    border: 2px solid #fb923c;
+    color: #7c2d12;
+    padding: 35px 45px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(251, 146, 60, 0.15);
+    max-width: 800px;
+    text-align: center;
 }
 
 .dmarc-warning-box h3 {
-    margin: 0 0 15px 0;
-    font-size: 1.4rem;
+    margin: 0 0 25px 0;
+    font-size: 1.5rem;
     font-weight: 700;
-    color: white;
+    color: #ea580c;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
 }
 
 .dmarc-warning-box h3 i.fas {
-    animation: pulse 2s ease-in-out infinite;
+    font-size: 1.6rem;
+    animation: gentle-pulse 2s ease-in-out infinite;
 }
 
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+@keyframes gentle-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.08); opacity: 0.85; }
 }
 
 .warning-list {
     list-style: none;
     padding: 0;
-    margin: 15px 0;
+    margin: 20px 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    text-align: left;
 }
 
 .warning-list li {
-    padding: 8px 0;
-    font-size: 1.05rem;
+    padding: 12px 16px;
+    font-size: 1rem;
     font-weight: 500;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+    background: white;
+    border-radius: 10px;
+    border-left: 4px solid #fb923c;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.warning-list li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(251, 146, 60, 0.2);
 }
 
 .warning-list li i {
-    font-size: 1.2rem;
-    opacity: 0.9;
+    font-size: 1.3rem;
+    color: #ea580c;
+    min-width: 24px;
+    text-align: center;
 }
 
 .warning-action {
-    margin: 15px 0 0 0;
+    margin: 25px 0 0 0;
     font-size: 1.1rem;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 8px;
+    padding: 18px 25px;
+    background: white;
+    border-radius: 10px;
     text-align: center;
+    color: #9a3412;
+    border: 2px solid #fb923c;
+    box-shadow: 0 4px 12px rgba(251, 146, 60, 0.15);
+}
+
+.warning-action strong {
+    color: #ea580c;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .warning-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .dmarc-warning-box {
+        padding: 25px 20px;
+    }
 }
 
 .summary-card.error {
