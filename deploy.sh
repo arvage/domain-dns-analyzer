@@ -22,8 +22,19 @@ if ! command -v python3 &> /dev/null; then
     exit 1
 fi
 
-PYTHON_VERSION=$(python3 --version | cut -d' ' -f2 | cut -d'.' -f1,2)
-echo "✅ Python $PYTHON_VERSION found"
+# Try to find the best Python version
+if command -v python3.12 &> /dev/null; then
+    PYTHON_CMD="python3.12"
+elif command -v python3.11 &> /dev/null; then
+    PYTHON_CMD="python3.11"
+elif command -v python3.10 &> /dev/null; then
+    PYTHON_CMD="python3.10"
+else
+    PYTHON_CMD="python3"
+fi
+
+PYTHON_VERSION=$($PYTHON_CMD --version | cut -d' ' -f2 | cut -d'.' -f1,2)
+echo "✅ Python $PYTHON_VERSION found (using $PYTHON_CMD)"
 
 # Check for libmagic (Linux)
 echo ""
@@ -39,8 +50,8 @@ fi
 echo ""
 echo "🔧 Creating virtual environment..."
 if [ ! -d "venv" ]; then
-    python3 -m venv venv
-    echo "✅ Virtual environment created"
+    $PYTHON_CMD -m venv venv
+    echo "✅ Virtual environment created with $PYTHON_CMD"
 else
     echo "✅ Virtual environment already exists"
 fi

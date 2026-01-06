@@ -31,6 +31,11 @@ Complete guide for installing and deploying the Domain Analyzer web application 
 ```bash
 sudo apt update
 sudo apt install -y python3 python3-pip python3-venv git libmagic1
+
+# If you need a specific Python version (recommended: 3.10+)
+sudo apt install -y python3.12 python3.12-venv python3.12-dev
+# or
+sudo apt install -y python3.11 python3.11-venv python3.11-dev
 ```
 
 For RHEL/CentOS:
@@ -62,11 +67,22 @@ cd domain-dns-analyzer
 ### Step 2: Create Virtual Environment
 
 ```bash
-# Create virtual environment
+# Check your Python version first
+python3 --version
+python3.12 --version  # If you have Python 3.12 installed
+
+# Create virtual environment with specific Python version
+# Option 1: If python3.12 is available
+python3.12 -m venv venv
+
+# Option 2: If only python3 points to newer version
 python3 -m venv venv
 
 # Activate virtual environment
 source venv/bin/activate
+
+# Verify Python version in venv
+python --version  # Should show your desired Python version
 ```
 
 ### Step 3: Install Dependencies
@@ -116,9 +132,14 @@ sudo su - domainanalyzer
 git clone https://github.com/arvage/domain-dns-analyzer.git
 cd domain-dns-analyzer
 
-# Create virtual environment
-python3 -m venv venv
+# Create virtual environment with Python 3.8+
+# Use python3.12, python3.11, python3.10, etc. depending on what's available
+python3.12 -m venv venv || python3.11 -m venv venv || python3.10 -m venv venv || python3 -m venv venv
+
 source venv/bin/activate
+
+# Verify correct Python version
+python --version
 
 # Install dependencies
 pip install --upgrade pip
