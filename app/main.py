@@ -125,7 +125,27 @@ os.makedirs(UPLOADS_DIR, exist_ok=True)
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     """Serve the main upload page"""
-    return templates.TemplateResponse("index.html", {"request": request})
+    # Extract domain name from host header
+    host = request.headers.get('host', 'localhost')
+    # Remove port if present
+    domain = host.split(':')[0]
+    # Extract just the domain name (e.g., 'utopiats' from 'danalyze.utopiats.com')
+    domain_parts = domain.split('.')
+    if len(domain_parts) >= 2:
+        # Get second-to-last part (main domain name)
+        site_name = domain_parts[-2]
+    else:
+        site_name = domain_parts[0]
+    
+    # Construct full domain URL
+    scheme = 'https' if request.url.scheme == 'https' or request.headers.get('x-forwarded-proto') == 'https' else 'http'
+    site_url = f"{scheme}://{domain}"
+    
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "site_name": site_name,
+        "site_url": site_url
+    })
 
 def validate_domain(domain: str) -> bool:
     """Validate domain name to prevent injection attacks"""
@@ -432,13 +452,23 @@ async def upload_file(request: Request):
         # Generate Excel report
         report_filename = await generate_excel_report(analysis_response)
         
+        # Extract domain info for footer
+        host = request.headers.get('host', 'localhost')
+        domain = host.split(':')[0]
+        domain_parts = domain.split('.')
+        site_name = domain_parts[-2] if len(domain_parts) >= 2 else domain_parts[0]
+        scheme = 'https' if request.url.scheme == 'https' or request.headers.get('x-forwarded-proto') == 'https' else 'http'
+        site_url = f"{scheme}://{domain}"
+        
         # Render results page with download link
         return templates.TemplateResponse("results.html", {
             "request": request,
             "results": results,
             "summary": summary,
             "report_filename": report_filename,
-            "timestamp": analysis_response.timestamp.strftime("%Y-%m-%d %H:%M:%S")
+            "timestamp": analysis_response.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
+            "site_name": site_name,
+            "site_url": site_url
         })
         
     except HTTPException:
