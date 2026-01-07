@@ -91,6 +91,7 @@
                         <select id="filterDmarcPolicy" class="filter-select">
                             <option value="all">DMARC Policy: All</option>
                             <option value="none">DMARC Policy: None</option>
+                            <option value="quarantine">DMARC Policy: Quarantine</option>
                             <option value="not-none">DMARC Policy: Set</option>
                         </select>
                         <select id="filterWebsite" class="filter-select">
@@ -243,6 +244,7 @@
                     (dmarcFilter === 'no' && !hasDmarc);
                 const matchesDmarcPolicy = dmarcPolicyFilter === 'all' || 
                     (dmarcPolicyFilter === 'none' && (dmarcPolicy.includes('none') || dmarcPolicy.includes('not set'))) || 
+                    (dmarcPolicyFilter === 'quarantine' && dmarcPolicy.includes('quarantine')) || 
                     (dmarcPolicyFilter === 'not-none' && dmarcPolicy && !dmarcPolicy.includes('none') && !dmarcPolicy.includes('not set'));
                 const matchesWebsite = websiteFilter === 'all' || 
                     (websiteFilter === 'yes' && hasWebsite) || 
