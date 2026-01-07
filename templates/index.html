@@ -239,26 +239,60 @@
             </div>
         </div>
         
-        <div class="info">
-            <h3>📊 Sample File Format</h3>
-            <table style="width: 100%; border-collapse: collapse; margin: 10px 0;">
-                <thead>
-                    <tr style="background: #007bff; color: white;">
-                        <th style="padding: 10px; border: 1px solid #ddd;">Domain</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #ddd;">example.com</td>
-                    </tr>
-                    <tr style="background: #f9f9f9;">
-                        <td style="padding: 10px; border: 1px solid #ddd;">company.org</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #ddd;">website.net</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="info" style="background: #e8f5e9; border-left-color: #4caf50;">
+            <h3>📊 CSV/Excel File Format</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 15px;"><strong>⚠️ IMPORTANT:</strong> Your file MUST have a column header named exactly <span style="background: #fff59d; padding: 2px 8px; border-radius: 3px; font-weight: bold; color: #000;">Domain</span> (capital D)</p>
+            
+            <div style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #4caf50; margin: 15px 0;">
+                <p style="font-weight: bold; margin-bottom: 10px; color: #2e7d32;">✅ CORRECT Format:</p>
+                <table style="width: 100%; border-collapse: collapse; margin: 10px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <thead>
+                        <tr style="background: #4caf50; color: white;">
+                            <th style="padding: 12px; border: 2px solid #388e3c; font-size: 1.1rem;">Domain</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f1f8e9;">
+                            <td style="padding: 10px; border: 1px solid #c5e1a5; font-family: monospace;">example.com</td>
+                        </tr>
+                        <tr style="background: white;">
+                            <td style="padding: 10px; border: 1px solid #c5e1a5; font-family: monospace;">company.org</td>
+                        </tr>
+                        <tr style="background: #f1f8e9;">
+                            <td style="padding: 10px; border: 1px solid #c5e1a5; font-family: monospace;">website.net</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="background: #ffebee; padding: 15px; border-radius: 8px; border: 2px solid #f44336; margin: 15px 0;">
+                <p style="font-weight: bold; margin-bottom: 10px; color: #c62828;">❌ WRONG Format (will not work):</p>
+                <table style="width: 100%; border-collapse: collapse; margin: 10px 0;">
+                    <thead>
+                        <tr style="background: #f44336; color: white;">
+                            <th style="padding: 12px; border: 2px solid #d32f2f; text-decoration: line-through;">domain</th>
+                        </tr>
+                    </thead>
+                </table>
+                <table style="width: 100%; border-collapse: collapse; margin: 10px 0;">
+                    <thead>
+                        <tr style="background: #f44336; color: white;">
+                            <th style="padding: 12px; border: 2px solid #d32f2f; text-decoration: line-through;">DOMAIN</th>
+                        </tr>
+                    </thead>
+                </table>
+                <table style="width: 100%; border-collapse: collapse; margin: 10px 0;">
+                    <thead>
+                        <tr style="background: #f44336; color: white;">
+                            <th style="padding: 12px; border: 2px solid #d32f2f; text-decoration: line-through;">Domains</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            
+            <p style="font-size: 1rem; margin-top: 15px; padding: 10px; background: #fff3cd; border-radius: 5px; border-left: 4px solid #ffc107;">
+                💡 <strong>Tip:</strong> Just put "Domain" in cell A1, then list your domains below it (one per row)
+            </p>
         </div>
         
         <footer style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid #667eea;">
