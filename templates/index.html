@@ -177,22 +177,11 @@
         
         <div class="upload-form">
             <div class="tabs">
-                <button class="tab active" onclick="switchTab('file')">📁 Upload File</button>
-                <button class="tab" onclick="switchTab('single')">🔍 Single Domain</button>
+                <button class="tab active" onclick="switchTab('single')">🔍 Single Domain</button>
+                <button class="tab" onclick="switchTab('file')">📊 Bulk Analysis</button>
             </div>
 
-            <div id="file-tab" class="tab-content active">
-                <h2>Upload Domain File</h2>
-                <form method="post" action="/upload" enctype="multipart/form-data" id="uploadForm">
-                    <div class="form-group">
-                        <label for="file">Select CSV or Excel file with domains:</label>
-                        <input type="file" name="file" id="file" accept=".csv,.xlsx,.xls" required>
-                    </div>
-                    <input type="submit" value="🚀 Analyze Domains" id="submitBtn">
-                </form>
-            </div>
-
-            <div id="single-tab" class="tab-content">
+            <div id="single-tab" class="tab-content active">
                 <h2>Check Single Domain</h2>
                 <form method="post" action="/analyze-single" onsubmit="return validateDomain()" id="singleForm">
                     <div class="form-group">
@@ -201,6 +190,17 @@
                         <small style="display: block; margin-top: 5px; color: #666;">Enter domain without http:// or www (e.g., example.com)</small>
                     </div>
                     <input type="submit" value="🔍 Analyze Domain" id="singleSubmitBtn">
+                </form>
+            </div>
+
+            <div id="file-tab" class="tab-content">
+                <h2>Upload Domain List</h2>
+                <form method="post" action="/upload" enctype="multipart/form-data" id="uploadForm">
+                    <div class="form-group">
+                        <label for="file">Select CSV or Excel file with domains:</label>
+                        <input type="file" name="file" id="file" accept=".csv,.xlsx,.xls" required>
+                    </div>
+                    <input type="submit" value="🚀 Analyze Domains" id="submitBtn">
                 </form>
             </div>
         </div>
