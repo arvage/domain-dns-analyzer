@@ -31,7 +31,7 @@ body {
 .container {
     max-width: 1600px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 15px;
     background: white;
     min-height: 100vh;
     box-shadow: 0 0 20px rgba(0,0,0,0.1);
@@ -40,15 +40,15 @@ body {
 /* Header Styles */
 header {
     text-align: center;
-    margin-bottom: 40px;
-    padding: 30px 0;
+    margin-bottom: 20px;
+    padding: 15px 0;
     border-bottom: 3px solid var(--primary-color);
 }
 
 header h1 {
     color: var(--gray-800);
-    font-size: 2.5rem;
-    margin-bottom: 10px;
+    font-size: 1.8rem;
+    margin-bottom: 8px;
     font-weight: 700;
 }
 
@@ -351,13 +351,13 @@ header p {
 
 /* Summary Section */
 .summary-section {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .summary-section h2 {
     color: var(--gray-800);
-    margin-bottom: 25px;
-    font-size: 1.8rem;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
     font-weight: 600;
 }
 
@@ -391,7 +391,7 @@ header p {
 
 /* DMARC Warning Section */
 .dmarc-warning-section {
-    margin: 20px 0;
+    margin: 15px 0;
     display: flex;
     justify-content: center;
 }
@@ -400,17 +400,17 @@ header p {
     background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
     border: 2px solid #fb923c;
     color: #7c2d12;
-    padding: 20px 30px;
-    border-radius: 12px;
+    padding: 15px 25px;
+    border-radius: 10px;
     box-shadow: 0 4px 12px rgba(251, 146, 60, 0.12);
-    max-width: 1100px !important;
+    max-width: 850px !important;
     width: 100%;
     text-align: center;
 }
 
 .dmarc-warning-box h3 {
-    margin: 0 0 15px 0;
-    font-size: 1.15rem;
+    margin: 0 0 10px 0;
+    font-size: 1rem;
     font-weight: 700;
     color: #ea580c;
     display: flex;
@@ -432,25 +432,26 @@ header p {
 .warning-list {
     list-style: none;
     padding: 0;
-    margin: 12px 0;
+    margin: 8px 0;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    gap: 8px;
     text-align: left;
 }
 
 .warning-list li {
-    padding: 8px 12px;
-    font-size: 0.9rem;
+    padding: 6px 10px;
+    font-size: 0.85rem;
     font-weight: 500;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     background: white;
-    border-radius: 8px;
+    border-radius: 6px;
     border-left: 3px solid #fb923c;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
 }
 
 .warning-list li:hover {
@@ -466,11 +467,11 @@ header p {
 }
 
 .warning-action {
-    margin: 15px 0 0 0;
-    font-size: 0.95rem;
-    padding: 12px 18px;
+    margin: 10px 0 0 0;
+    font-size: 0.85rem;
+    padding: 10px 15px;
     background: white;
-    border-radius: 8px;
+    border-radius: 6px;
     text-align: center;
     color: #9a3412;
     border: 2px solid #fb923c;
