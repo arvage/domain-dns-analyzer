@@ -110,6 +110,7 @@ class DNSAnalyzer:
                 if txt_string.startswith('v=DMARC1'):
                     result.dmarc_record = txt_string
                     dmarc_found = True
+                    result.has_dmarc_policy = True  # DMARC record exists
                     
                     # Extract DMARC policy and RUF email
                     if 'p=' in txt_string:
@@ -120,10 +121,6 @@ class DNSAnalyzer:
                             if part.startswith('p='):
                                 policy = part.split('=', 1)[1].strip()
                                 result.dmarc_policy = policy
-                                
-                                # Check if policy is set (not 'none' and not empty)
-                                if policy and policy.lower() != 'none':
-                                    result.has_dmarc_policy = True
                             elif part.startswith('ruf='):
                                 # Extract RUF email(s)
                                 ruf_value = part.split('=', 1)[1].strip()
