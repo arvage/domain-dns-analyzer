@@ -403,7 +403,7 @@
             
             const interval = setInterval(function() {
                 progress += Math.random() * 15;
-                if (progress > 90) progress = 90; // Stop at 90% until complete
+                if (progress > 95) progress = 95; // Stop at 95% until complete
                 
                 domainsProcessed = Math.floor((progress / 100) * totalDomains);
                 const progressPercent = Math.round(progress);
@@ -415,8 +415,10 @@
                     statusText = `📖 Reading file... ${domainsProcessed}/${totalDomains} (${progressPercent}%)`;
                 } else if (progress < 60) {
                     statusText = `🔍 Analyzing DNS... ${domainsProcessed}/${totalDomains} (${progressPercent}%)`;
-                } else if (progress < 90) {
-                    statusText = `📊 Generating report... ${domainsProcessed}/${totalDomains} (${progressPercent}%)`;
+                } else if (progress < 80) {
+                    statusText = `📊 Processing results... ${domainsProcessed}/${totalDomains} (${progressPercent}%)`;
+                } else {
+                    statusText = `📝 Generating report... ${totalDomains}/${totalDomains} (${progressPercent}%)`;
                 }
                 
                 submitBtn.value = statusText;
