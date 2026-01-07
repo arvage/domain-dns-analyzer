@@ -143,7 +143,7 @@
                                         <span class="status-badge error"><i class="fas fa-times"></i> No</span>
                                     {% endif %}
                                 </td>
-                                <td class="policy-cell" {% if result.dmarc_policy and 'none' in result.dmarc_policy.lower() %}style="color: #dc2626; font-weight: bold;"{% endif %}>{{ result.dmarc_policy }}</td>
+                                <td class="policy-cell" {% if result.dmarc_policy and ('none' in result.dmarc_policy.lower() or 'not set' in result.dmarc_policy.lower()) %}style="color: #dc2626; font-weight: bold;"{% endif %}>{{ result.dmarc_policy }}</td>
                                 <td class="record-cell contact-cell">
                                     {% if result.dmarc_ruf_email and '@' in result.dmarc_ruf_email %}
                                         <a href="mailto:{{ result.dmarc_ruf_email.split(';')[0].strip() }}" class="contact-btn contact-btn-secondary" title="{{ result.dmarc_ruf_email }}">
