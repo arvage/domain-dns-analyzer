@@ -91,6 +91,7 @@ app.add_middleware(
 # Mount static files and templates
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
+templates.env.auto_reload = True  # Force template reload in development
 
 # Add exception handlers
 @app.exception_handler(RequestValidationError)
