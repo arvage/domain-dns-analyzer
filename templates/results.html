@@ -88,6 +88,11 @@
                             <option value="yes">DMARC: Yes</option>
                             <option value="no">DMARC: No</option>
                         </select>
+                        <select id="filterDmarcPolicy" class="filter-select">
+                            <option value="all">DMARC Policy: All</option>
+                            <option value="none">DMARC Policy: None</option>
+                            <option value="not-none">DMARC Policy: Set</option>
+                        </select>
                         <select id="filterWebsite" class="filter-select">
                             <option value="all">Website: All</option>
                             <option value="yes">Website: Yes</option>
@@ -97,11 +102,6 @@
                             <option value="all">WWW: All</option>
                             <option value="yes">WWW: Points to Main</option>
                             <option value="no">WWW: Doesn't Point</option>
-                        </select>
-                        <select id="filterError" class="filter-select">
-                            <option value="all">Errors: All</option>
-                            <option value="yes">With Errors</option>
-                            <option value="no">No Errors</option>
                         </select>
                         <button id="resetFilters" class="reset-btn">🔄 Reset Filters</button>
                     </div>
@@ -132,6 +132,7 @@
                             <tr class="result-row" 
                                 data-domain="{{ result.domain }}" 
                                 data-dmarc="{{ result.has_dmarc_policy|lower }}" 
+                                data-dmarc-policy="{{ result.dmarc_policy|lower }}" 
                                 data-website="{{ result.has_website|lower }}" 
                                 data-www="{{ result.www_points_to_main|lower }}"
                                 data-error="{{ 'true' if result.error else 'false' }}">
@@ -209,7 +210,7 @@
         const filterDmarc = document.getElementById('filterDmarc');
         const filterWebsite = document.getElementById('filterWebsite');
         const filterWWW = document.getElementById('filterWWW');
-        const filterError = document.getElementById('filterError');
+        const filterDmarcPolicy = document.getElementById('filterDmarcPolicy');
         const resetFilters = document.getElementById('resetFilters');
         const resultsTable = document.getElementById('resultsTable');
         const rows = resultsTable.querySelectorAll('tbody tr');
@@ -222,36 +223,36 @@
         function filterTable() {
             const searchTerm = searchInput.value.toLowerCase();
             const dmarcFilter = filterDmarc.value;
+            const dmarcPolicyFilter = filterDmarcPolicy.value;
             const websiteFilter = filterWebsite.value;
             const wwwFilter = filterWWW.value;
-            const errorFilter = filterError.value;
 
             let visibleRows = 0;
 
             rows.forEach(row => {
                 const domain = row.querySelector('.domain-cell').textContent.toLowerCase();
                 const hasDmarc = row.dataset.dmarc === 'true';
+                const dmarcPolicy = row.dataset.dmarcPolicy || '';
                 const hasWebsite = row.dataset.website === 'true';
                 const hasWWW = row.dataset.www === 'true';
-                const hasError = row.dataset.error === 'true';
 
                 // Check all filters
                 const matchesSearch = !searchTerm || domain.includes(searchTerm);
                 const matchesDmarc = dmarcFilter === 'all' || 
                     (dmarcFilter === 'yes' && hasDmarc) || 
                     (dmarcFilter === 'no' && !hasDmarc);
+                const matchesDmarcPolicy = dmarcPolicyFilter === 'all' || 
+                    (dmarcPolicyFilter === 'none' && (dmarcPolicy.includes('none') || dmarcPolicy.includes('not set'))) || 
+                    (dmarcPolicyFilter === 'not-none' && dmarcPolicy && !dmarcPolicy.includes('none') && !dmarcPolicy.includes('not set'));
                 const matchesWebsite = websiteFilter === 'all' || 
                     (websiteFilter === 'yes' && hasWebsite) || 
                     (websiteFilter === 'no' && !hasWebsite);
                 const matchesWWW = wwwFilter === 'all' || 
                     (wwwFilter === 'yes' && hasWWW) || 
                     (wwwFilter === 'no' && !hasWWW);
-                const matchesError = errorFilter === 'all' || 
-                    (errorFilter === 'yes' && hasError) || 
-                    (errorFilter === 'no' && !hasError);
 
                 // Show/hide row based on all filters
-                if (matchesSearch && matchesDmarc && matchesWebsite && matchesWWW && matchesError) {
+                if (matchesSearch && matchesDmarc && matchesDmarcPolicy && matchesWebsite && matchesWWW) {
                     row.style.display = '';
                     visibleRows++;
                 } else {
@@ -266,17 +267,17 @@
         // Add event listeners
         searchInput.addEventListener('input', filterTable);
         filterDmarc.addEventListener('change', filterTable);
+        filterDmarcPolicy.addEventListener('change', filterTable);
         filterWebsite.addEventListener('change', filterTable);
         filterWWW.addEventListener('change', filterTable);
-        filterError.addEventListener('change', filterTable);
 
         // Reset filters button
         resetFilters.addEventListener('click', function() {
             searchInput.value = '';
             filterDmarc.value = 'all';
+            filterDmarcPolicy.value = 'all';
             filterWebsite.value = 'all';
             filterWWW.value = 'all';
-            filterError.value = 'all';
             filterTable();
         });
 
