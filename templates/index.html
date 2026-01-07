@@ -175,7 +175,7 @@
         <div class="upload-form">
             <div class="tabs">
                 <button class="tab active" onclick="switchTab('single')">🔍 Single Domain</button>
-                <button class="tab" onclick="switchTab('file')">📊 Bulk Analysis</button>
+                <button class="tab" onclick="switchTab('file')">📊 Bulk Analysis <a href="#file-requirements" style="text-decoration: none; margin-left: 5px; color: #007bff; font-size: 1.1rem;" title="See file format requirements">❓</a></button>
             </div>
 
             <div id="single-tab" class="tab-content active">
@@ -203,18 +203,7 @@
         </div>
         
         <div class="info">
-            <h3>📋 Bulk Analysis File Requirements</h3>
-            <p style="margin-bottom: 15px;">For bulk domain checks, use the <strong>📊 Bulk Analysis</strong> tab and upload your file with the following requirements:</p>
-            <ul>
-                <li>File must contain a column named <strong>"Domain"</strong></li>
-                <li>Supported formats: CSV (.csv), Excel (.xlsx, .xls)</li>
-                <li>Maximum file size: 10MB</li>
-                <li>One domain per row in the Domain column</li>
-            </ul>
-        </div>
-        
-        <div class="info">
-            <h3>🔍 What We Analyze</h3>
+            <h3>� What We Analyze</h3>
             <div class="features">
                 <div class="feature">
                     <h4>📧 MX Records</h4>
@@ -237,6 +226,17 @@
                     <p>Technical contact email via WHOIS</p>
                 </div>
             </div>
+        </div>
+        
+        <div class="info" id="file-requirements">
+            <h3>�📋 Bulk Analysis File Requirements</h3>
+            <p style="margin-bottom: 15px;">For bulk domain checks, use the <strong>📊 Bulk Analysis</strong> tab and upload your file with the following requirements:</p>
+            <ul>
+                <li>File must contain a column named <strong>"Domain"</strong></li>
+                <li>Supported formats: CSV (.csv), Excel (.xlsx, .xls)</li>
+                <li>Maximum file size: 10MB</li>
+                <li>One domain per row in the Domain column</li>
+            </ul>
         </div>
         
         <div class="info" style="background: #e8f5e9; border-left-color: #4caf50;">
