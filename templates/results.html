@@ -22,7 +22,7 @@
                 </a>
                 
                 <div style="display: flex; gap: 10px;">
-                    <button onclick="captureScreenshot()" class="download-btn" style="cursor: pointer; border: none;">
+                    <button onclick="captureScreenshot(event)" class="download-btn" style="cursor: pointer; border: none;">
                         <i class="fas fa-camera"></i> Screenshot
                     </button>
                     <a href="/download/{{ report_filename }}" class="download-btn">
@@ -301,34 +301,43 @@
         });
 
         // Screenshot functionality
-        function captureScreenshot() {
+        async function captureScreenshot(event) {
             const button = event.target.closest('button');
             const originalText = button.innerHTML;
             button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Capturing...';
             button.disabled = true;
 
-            html2canvas(document.querySelector('.container'), {
-                scale: 2,
-                useCORS: true,
-                backgroundColor: '#ffffff',
-                logging: false
-            }).then(canvas => {
+            try {
+                // Check if html2canvas is loaded
+                if (typeof html2canvas === 'undefined') {
+                    throw new Error('html2canvas library not loaded');
+                }
+
+                const canvas = await html2canvas(document.querySelector('.container'), {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#ffffff',
+                    logging: true
+                });
+                
                 // Create download link
                 const link = document.createElement('a');
                 const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
                 link.download = `dns-analysis-${timestamp}.png`;
                 link.href = canvas.toDataURL('image/png');
+                document.body.appendChild(link);
                 link.click();
+                document.body.removeChild(link);
                 
                 // Reset button
                 button.innerHTML = originalText;
                 button.disabled = false;
-            }).catch(error => {
+            } catch (error) {
                 console.error('Screenshot failed:', error);
-                alert('Failed to capture screenshot. Please try again.');
+                alert('Failed to capture screenshot: ' + error.message);
                 button.innerHTML = originalText;
                 button.disabled = false;
-            });
+            }
         }
     </script>
 </body>
