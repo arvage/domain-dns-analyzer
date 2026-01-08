@@ -449,27 +449,6 @@ header p {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     white-space: nowrap;
-}
-
-.warning-list li:nth-child(1) {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    border-left: 4px solid #f59e0b;
-    color: #78350f;
-}
-
-.warning-list li:nth-child(2) {
-    background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
-    border-left: 4px solid #8b5cf6;
-    color: #4c1d95;
-}
-
-.warning-list li:nth-child(3) {
-    background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%);
-    border-left: 4px solid #3b82f6;
-    color: #1e3a8a;
-}
-
-.warning-list li:nth-child(4) {
     background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
     border-left: 4px solid #ef4444;
     color: #7f1d1d;
